@@ -1,13 +1,14 @@
 package board;
 
+import cards.Card;
+
 import java.util.ArrayList;
 
 public class CardList{
     private ArrayList<cards.Card> cList;
     public CardList() {
-        cList = new ArrayList<>();
+        cList = new ArrayList<Card>();
     }
-
     public void add(cards.Card card) {
         cList.add(card);
     }
