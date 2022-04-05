@@ -5,32 +5,31 @@ import java.io.Console;
 import board.*;
 import cards.Card;
 import cards.CardType;
-import javafx.application.Application;
 
 public class Game{
 	private static Player p1, p2;
-
+	
 	public static void play() {
 		boolean p1plays=true;
 		Player currentPlayer;
-
+		
 		Board.initialisePiles();
 		Board.setUpCards();
 		Board.getForestCardsPile().shufflePile();
-
-		//Populate forest
-		for (int i=0; i<8;i++) {
-			Board.getForest().add(Board.getForestCardsPile().drawCard());
+		
+		//Populate forest	
+		for (int i=0; i<8;i++) {			
+			Board.getForest().add(Board.getForestCardsPile().drawCard());		
 		}
 		//Initialise players and populate player hands
 		p1  = new Player(); currentPlayer=p1; p2 = new Player();
 		p1.addCardtoHand(Board.getForestCardsPile().drawCard());p1.addCardtoHand(Board.getForestCardsPile().drawCard());p1.addCardtoHand(Board.getForestCardsPile().drawCard());
-		p2.addCardtoHand(Board.getForestCardsPile().drawCard());p2.addCardtoHand(Board.getForestCardsPile().drawCard());p2.addCardtoHand(Board.getForestCardsPile().drawCard());
-
+		p2.addCardtoHand(Board.getForestCardsPile().drawCard());p2.addCardtoHand(Board.getForestCardsPile().drawCard());p2.addCardtoHand(Board.getForestCardsPile().drawCard());	
+				
 		//Display board
-		displayBoard();
-		while (Board.getForest().size()>0) {
-			if (p1plays)
+		displayBoard();		
+		while (Board.getForest().size()>0) {		
+			if (p1plays) 
 				System.out.println("\nPlayer 1, which of the following actions are you going to do?\n");
 			else
 				System.out.println("\nPlayer 2, which of the following actions are you going to do?\n");
@@ -39,8 +38,8 @@ public class Game{
 			System.out.println("3. Cook three or more identical types of mushrooms");
 			System.out.println("4. Sell two or more identical types of mushrooms");
 			System.out.println("5. Put down one pan\n");
-			try {
-				Console keyboard = System.console();
+			try { 
+				Console keyboard = System.console();			
 				int option = Integer.parseInt(keyboard.readLine("Enter the number for the action:"));
 				boolean succesfullMove = false;
 				switch(option) {
@@ -50,12 +49,12 @@ public class Game{
 							if (Board.getForestCardsPile().pileSize()>0) {
 								Board.getForest().add(Board.getForestCardsPile().drawCard());
 							}
-							succesfullMove=true;
+							succesfullMove=true;						
 						}
 						break;
 					case 2:
 						if (currentPlayer.takeFromDecay()) {
-							succesfullMove=true;
+							succesfullMove=true;	
 						}
 						break;
 					case 3:
@@ -65,7 +64,7 @@ public class Game{
 						for (int k=0;k<splittedStringOfInts.length;k++) {
 							int inputInt=Integer.parseInt(splittedStringOfInts[k]);
 							cookingmushrooms.add(currentPlayer.getHand().getElementAt(inputInt-1));
-						}
+						}					
 						if (currentPlayer.cookMushrooms(cookingmushrooms)) {
 							succesfullMove=true;
 						}
@@ -75,14 +74,14 @@ public class Game{
 						int mushNumber  = Integer.parseInt(keyboard.readLine("How many are willing to sell? Type number:"));
 						if (currentPlayer.sellMushrooms(mushType,mushNumber)) {
 							succesfullMove=true;
-						}
+						}						
 						break;
 					case 5:
 						if (currentPlayer.putPanDown()) {
 							succesfullMove=true;
 						}
 						break;
-				}
+				}			
 				String prompt="TRY AGAIN";
 				if (succesfullMove) {
 					if (Board.getForest().size()>0) {
@@ -98,7 +97,7 @@ public class Game{
 					else
 						currentPlayer=p2;
 					prompt="NEW MOVE";
-				}
+				}			
 				System.out.println();
 				displayGameStatus();
 				System.out.println("================================================================================================================");
@@ -117,22 +116,16 @@ public class Game{
 		}
 		else {
 			System.out.println("There was a tie");
-		}
+		}			
 	}
-
-
+	
 	public static void main (String [] args) {
-		if (args[0].equals("terminal")) {
-			play();
-		}
-		else if (args[0].equals("graphic")) {
-			//Application.launch(GraphicalGame.class, args);
-		}
+		play();
 	}
-
+	
 	private static void displayBoard() {
-		displayGameStatus();
-		System.out.print("\n");
+		displayGameStatus(); 
+		System.out.print("\n");		
 		System.out.println("Player 1 hand");
 
 		printTxtDisplayable(p1.getHand());
@@ -144,7 +137,7 @@ public class Game{
 		System.out.println("Player 2 hand");
 		printTxtDisplayable(p2.getHand());
 	}
-
+	
 	private static void displayGameStatus() {
 		System.out.println("\nThere are "+Board.getForestCardsPile().pileSize()+" cards in the Forest pile");
 		System.out.print("Decay pile: ");
@@ -154,7 +147,7 @@ public class Game{
 		System.out.println("\nPlayer 1: "+p1.getStickNumber()+" sticks, score: "+p1.getScore());
 		System.out.println("Player 2: "+p2.getStickNumber()+" sticks, score: "+p2.getScore());
 	}
-
+	
 	private static void printTxtDisplayable(Displayable d) {
 		int index;
 		printTxtCardTop(d.size());
@@ -172,16 +165,16 @@ public class Game{
 			}
 		}
 		System.out.println();
-		for (int k=0; k < d.size(); k++) {
+		for (int k=0; k < d.size(); k++) {	
 			if (d.getElementAt(k).getType().equals(CardType.NIGHTMUSHROOM)) {
 				System.out.print("|      (N)       |");			}
 			else {
 				System.out.print("|                |");
-			}
+			}			
 		}
 		printTxtCardBottom(d.size());
 	}
-
+	
 	private static void printTxtForest(CardList cl) {
 		int index;
 		System.out.println("Forest");
@@ -197,19 +190,19 @@ public class Game{
 			}
 			else {
 				System.out.print("|      ("+index+")      |");
-			}
+			}	
 		}
 		System.out.println();
-		for (int k=0; k < cl.size(); k++) {
+		for (int k=0; k < cl.size(); k++) {	
 			if (cl.getElementAt(k).getType().equals(CardType.NIGHTMUSHROOM)) {
 				System.out.print("|       (N)      |");			}
 			else {
 				System.out.print("|                |");
-			}
+			}			
 		}
 		printTxtCardBottom(cl.size());
 	}
-
+	
 	private static void printTxtCardTop(int cardNumber) {
 		for (int i=0; i < cardNumber; i++) {
 			System.out.print(" ---------------- ");
@@ -220,30 +213,30 @@ public class Game{
 				System.out.print("|                |");
 			}
 			System.out.print("\n");
-		}
+		}	
 	}
-
+	
 	private static void printTxtCardBottom(int cardNumber) {
 		System.out.print("\n");
 		for (int i=0; i < 3; i++) {
 			for (int j=0; j < cardNumber; j++) {
 				System.out.print("|                |");
 			}
-			System.out.print("\n");
+			System.out.print("\n");			
 		}
 		for (int k=0; k < cardNumber; k++) {
 			System.out.print(" ---------------- ");
 		}
 		System.out.print("\n");
 	}
-
+	
 
 	private static void printTxtCard(Card c) {
 		final int width = 16;
 		String name=c.getName();
 		int blank= width-name.length();
-		System.out.print("|");
-		if (blank % 2 == 0) {
+		System.out.print("|");		
+		if (blank % 2 == 0) { 
 			for (int i=0; i < blank/2; i++) {
 				System.out.print(" ");
 			}
@@ -259,8 +252,8 @@ public class Game{
 			System.out.print(name);
 			for (int j=0; j <= blank/2; j++) {
 				System.out.print(" ");
-			}
+			}			
 		}
-		System.out.print("|");
-	}
+		System.out.print("|");		
+	}	
 }
