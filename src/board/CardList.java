@@ -5,7 +5,7 @@ import cards.Card;
 import java.util.ArrayList;
 
 public class CardList{
-    private ArrayList<cards.Card> cList;
+    private static ArrayList<cards.Card> cList;
     public CardList() {
         cList = new ArrayList<Card>();
     }
@@ -15,10 +15,10 @@ public class CardList{
     public int size() {
         return cList.size();
     }
-    public cards.Card getElementAt(int position) {
+    public Card getElementAt(int position) {
         return cList.get(position);
     }
-    public void removeCardAt(int position) {
-        cList.remove(position);
+    public static Card removeCardAt(int position) {
+        return cList.remove(position);
     }
 }

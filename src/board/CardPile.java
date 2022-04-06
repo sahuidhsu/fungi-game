@@ -5,14 +5,14 @@ import cards.Card;
 import java.util.Stack;
 
 public class CardPile {
-    private Stack<Card> cPile;
+    private static Stack<Card> cPile;
     public CardPile(){
         cPile = new Stack<Card>();
     }
     public void addCard(Card card){
         cPile.push(card);
     }
-    public Card drawCard(){
+    public static Card drawCard(){
         return cPile.pop();
     }
     public void shufflePile(){
