@@ -128,14 +128,14 @@ public class Game{
 		System.out.print("\n");		
 		System.out.println("Player 1 hand");
 
-		printTxtDisplayable(p1.getHand());
+		printTxtDisplayable((Displayable) p1.getHand());
 		System.out.println("Player 1 display");
-		printTxtDisplayable(p1.getDisplay());
+		printTxtDisplayable((Displayable) p1.getDisplay());
 		printTxtForest(Board.getForest());
 		System.out.println("Player 2 display");
-		printTxtDisplayable(p2.getDisplay());
+		printTxtDisplayable((Displayable) p2.getDisplay());
 		System.out.println("Player 2 hand");
-		printTxtDisplayable(p2.getHand());
+		printTxtDisplayable((Displayable) p2.getHand());
 	}
 	
 	private static void displayGameStatus() {
