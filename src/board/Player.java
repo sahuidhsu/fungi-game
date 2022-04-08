@@ -1,6 +1,9 @@
 package board;
 
 import cards.Card;
+import board.*;
+import cards.CardType;
+import cards.Pan;
 
 import java.util.ArrayList;
 
@@ -14,6 +17,7 @@ public class Player {
     public Player() {
         h = new Hand();
         d = new Display();
+        d.add(new Pan());
         score = 0;
         handlimit = 8;
         sticks = 0;
@@ -47,11 +51,32 @@ public class Player {
     }
 
     public Boolean takeCardFromTheForest(int position) {
-        switch (position) {
-            case 1, 2:
-
+        if (getHand().size()+1 > getHandLimit()) {
+            return false;
         }
-        return true;
+        Card drawnCard = Board.getForest().removeCardAt(1);
+        if (drawnCard.getType().equals(CardType.BASKET)) {
+            addCardtoDisplay(drawnCard);
+            handlimit += 2;
+            return true;
+        }
+        else if (drawnCard.getType().equals(CardType.STICK)) {
+            addSticks(1);
+            return true;
+        }
+        else if (position >= 3 && position <= 8) {
+            if (getStickNumber() >= position-2) {
+                removeSticks(position - 2);
+                addCardtoHand(drawnCard);
+                return true;
+            }
+            else return false;
+        }
+        else if (position == 1 || position == 2) {
+            addCardtoHand(drawnCard);
+            return true;
+        }
+        else return false;
     }
     public Boolean takeFromDecay() {
         return true;

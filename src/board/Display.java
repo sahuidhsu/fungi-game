@@ -4,8 +4,8 @@ import cards.Card;
 
 import java.util.ArrayList;
 
-public class Display {
-    private ArrayList<Card> displayList;
+public class Display implements Displayable {
+    private ArrayList<Card> displayList = new ArrayList<>();
     public void add(Card card) {
         displayList.add(card);
     }
