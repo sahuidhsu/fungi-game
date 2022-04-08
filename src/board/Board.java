@@ -35,6 +35,8 @@ public class Board {
         }
         for (int i = 0; i < 3; i++) {
             forestCardsPile.addCard(new Morel(CardType.DAYMUSHROOM));
+            forestCardsPile.addCard(new Butter());
+            forestCardsPile.addCard(new Cider());
         }
         forestCardsPile.addCard(new HoneyFungus(CardType.NIGHTMUSHROOM));
         forestCardsPile.addCard(new TreeEar(CardType.NIGHTMUSHROOM));
@@ -44,9 +46,7 @@ public class Board {
         forestCardsPile.addCard(new BirchBolete(CardType.NIGHTMUSHROOM));
         forestCardsPile.addCard(new Porcini(CardType.NIGHTMUSHROOM));
         forestCardsPile.addCard(new Chanterelle(CardType.NIGHTMUSHROOM));
-        forestCardsPile.addCard(new Butter());
-        forestCardsPile.addCard(new Cider());
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 11; i++) {
             forestCardsPile.addCard(new Pan());
         }
     }
