@@ -49,6 +49,7 @@ public class Player {
     public Boolean takeCardFromTheForest(int position) {
         switch (position) {
             case 1, 2:
+
         }
         return true;
     }

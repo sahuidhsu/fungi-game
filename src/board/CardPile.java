@@ -2,6 +2,7 @@ package board;
 
 import cards.Card;
 
+import java.util.Collections;
 import java.util.Stack;
 
 public class CardPile {
@@ -16,12 +17,7 @@ public class CardPile {
         return cPile.pop();
     }
     public void shufflePile(){
-        for (int i = 0; i < cPile.size(); i++) {
-            int r = (int) (Math.random() * cPile.size());
-            Card temp = cPile.get(i);
-            cPile.set(i, cPile.get(r));
-            cPile.set(r, temp);
-        }
+        Collections.shuffle(cPile);
     }
     public int pileSize(){
         return cPile.size();

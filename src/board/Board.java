@@ -60,5 +60,9 @@ public class Board {
         return decayPile;
     }
     public static void updateDecayPile() {
+        if (decayPile.size() == 4) decayPile.clear();
+        decayPile.add(getForest().removeCardAt(1));
+        forestCardsPile.shufflePile();
+        forest.add(getForestCardsPile().drawCard());
     }
 }
