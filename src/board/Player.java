@@ -79,7 +79,68 @@ public class Player {
         else return false;
     }
     public Boolean takeFromDecay() {
-        return true;
+        if (getHand().size()+Board.getDecayPile().size() <= getHandLimit()) {
+            for (int i = 0; i < Board.getDecayPile().size(); i++) {
+                if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
+                    addCardtoDisplay(Board.getDecayPile().remove(i));
+                }
+                else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                    addSticks(1);
+                }
+                else {
+                    addCardtoHand(Board.getDecayPile().remove(i));
+                }
+            }
+            return true;
+        }
+        if (Board.getDecayPile().size() < 4) {
+            Boolean validBasket = false;
+            for (int i = 0; i < Board.getDecayPile().size(); i++) {
+                if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
+                    validBasket = true;
+                }
+            }
+            if (validBasket) {
+                for (int i = 0; i < Board.getDecayPile().size(); i++) {
+                    if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
+                        addCardtoDisplay(Board.getDecayPile().remove(i));
+                        handlimit += 2;
+                    }
+                    else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                        addSticks(1);
+                    }
+                    else {
+                        addCardtoHand(Board.getDecayPile().remove(i));
+                    }
+                }
+                return true;
+            }
+            else return false;
+        }
+        else {
+            int numberOfBaskets = 0;
+            for (int i = 0; i < Board.getDecayPile().size(); i++) {
+                if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
+                    numberOfBaskets++;
+                }
+            }
+            if (numberOfBaskets == 2) {
+                for (int i = 0; i < Board.getDecayPile().size(); i++) {
+                    if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
+                        addCardtoDisplay(Board.getDecayPile().remove(i));
+                        handlimit += 2;
+                    }
+                    else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                        addSticks(1);
+                    }
+                    else {
+                        addCardtoHand(Board.getDecayPile().remove(i));
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
     public Boolean cookMushrooms(ArrayList<Card> cardList) {
         return true;
