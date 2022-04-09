@@ -62,12 +62,10 @@ public class Player {
     public void addCardtoHand(Card c) {
         if (c.getType().equals(CardType.BASKET)) {
             addCardtoDisplay(c);
-            handlimit+=2;
-        }
-        else if (c.getType().equals(CardType.STICK)) {
+            handlimit += 2;
+        } else if (c.getType().equals(CardType.STICK)) {
             addSticks(1);
-        }
-        else {
+        } else {
             h.add(c);
         }
     }
@@ -119,20 +117,27 @@ public class Player {
         return false;
     }
     public Boolean takeFromDecay() {
+        System.out.println(getHandLimit());
+        System.out.println(getHand().size());
+        int repeatNum = Board.getDecayPile().size();
         if (getHand().size()+Board.getDecayPile().size() <= getHandLimit()) {
-            for (int i = 0; i < Board.getDecayPile().size(); i++) {
-                if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
-                    addCardtoDisplay(Board.getDecayPile().remove(i));
+            for (int i = 0; i < repeatNum; i++) {
+                if (Board.getDecayPile().get(0).getType().equals(CardType.BASKET)) {
+                    addCardtoDisplay(Board.getDecayPile().remove(0));
                     handlimit += 2;
                 }
-                else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                else if (Board.getDecayPile().get(0).getType().equals(CardType.STICK)) {
                     addSticks(1);
+                    Board.getDecayPile().remove(0);
                 }
                 else {
-                    addCardtoHand(Board.getDecayPile().remove(i));
+                    addCardtoHand(Board.getDecayPile().remove(0));
                 }
             }
             return true;
+        }
+        if (getHand().size() > getHandLimit()) {
+            return false;
         }
         if (Board.getDecayPile().size() < 4) {
             Boolean validBasket = false;
@@ -142,16 +147,17 @@ public class Player {
                 }
             }
             if (validBasket) {
-                for (int i = 0; i < Board.getDecayPile().size(); i++) {
-                    if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
-                        addCardtoDisplay(Board.getDecayPile().remove(i));
+                for (int i = 0; i < repeatNum; i++) {
+                    if (Board.getDecayPile().get(0).getType().equals(CardType.BASKET)) {
+                        addCardtoDisplay(Board.getDecayPile().remove(0));
                         handlimit += 2;
                     }
-                    else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                    else if (Board.getDecayPile().get(0).getType().equals(CardType.STICK)) {
                         addSticks(1);
+                        Board.getDecayPile().remove(0);
                     }
                     else {
-                        addCardtoHand(Board.getDecayPile().remove(i));
+                        addCardtoHand(Board.getDecayPile().remove(0));
                     }
                 }
                 return true;
@@ -160,22 +166,23 @@ public class Player {
         }
         else {
             int numberOfBaskets = 0;
-            for (int i = 0; i < Board.getDecayPile().size(); i++) {
+            for (int i = 0; i < repeatNum; i++) {
                 if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
                     numberOfBaskets++;
                 }
             }
-            if (numberOfBaskets >= 2) {
-                for (int i = 0; i < Board.getDecayPile().size(); i++) {
-                    if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
-                        addCardtoDisplay(Board.getDecayPile().remove(i));
+            if ((numberOfBaskets >= 2 && getHand().size() == getHandLimit()) || (numberOfBaskets >= 1 && getHand().size() < getHandLimit())) {
+                for (int i = 0; i < repeatNum; i++) {
+                    if (Board.getDecayPile().get(0).getType().equals(CardType.BASKET)) {
+                        addCardtoDisplay(Board.getDecayPile().remove(0));
                         handlimit += 2;
                     }
-                    else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
+                    else if (Board.getDecayPile().get(0).getType().equals(CardType.STICK)) {
                         addSticks(1);
+                        Board.getDecayPile().remove(0);
                     }
                     else {
-                        addCardtoHand(Board.getDecayPile().remove(i));
+                        addCardtoHand(Board.getDecayPile().remove(0));
                     }
                 }
                 return true;
