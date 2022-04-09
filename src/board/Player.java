@@ -179,6 +179,23 @@ public class Player {
         return true;
     }
     public Boolean putPanDown() {
-        return true;
+        Boolean hasPan = false;
+        for (int i = 0; i < getHand().size(); i++) {
+            if (getHand().getElementAt(i).getType().equals(CardType.PAN)) {
+                hasPan = true;
+                break;
+            }
+        }
+        if (hasPan) {
+            int counter = 0;
+            while  (counter < getHand().size()) {
+                if (getHand().getElementAt(counter).getType().equals(CardType.PAN)) {
+                    getDisplay().add(getHand().removeElement(counter));
+                    return true;
+                }
+                counter++;
+            }
+        }
+        return false;
     }
 }
