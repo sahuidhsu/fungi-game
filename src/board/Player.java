@@ -6,6 +6,7 @@ import cards.CardType;
 import cards.Pan;
 import cards.Stick;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -59,7 +60,16 @@ public class Player {
         return d;
     }
     public void addCardtoHand(Card c) {
-        h.add(c);
+        if (c.getType().equals(CardType.BASKET)) {
+            addCardtoDisplay(c);
+            handlimit+=2;
+        }
+        else if (c.getType().equals(CardType.STICK)) {
+            addSticks(1);
+        }
+        else {
+            h.add(c);
+        }
     }
     public void addCardtoDisplay(Card c) {
         d.add(c);
@@ -113,6 +123,7 @@ public class Player {
             for (int i = 0; i < Board.getDecayPile().size(); i++) {
                 if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
                     addCardtoDisplay(Board.getDecayPile().remove(i));
+                    handlimit += 2;
                 }
                 else if (Board.getDecayPile().get(i).getType().equals(CardType.STICK)) {
                     addSticks(1);
@@ -154,7 +165,7 @@ public class Player {
                     numberOfBaskets++;
                 }
             }
-            if (numberOfBaskets == 2) {
+            if (numberOfBaskets >= 2) {
                 for (int i = 0; i < Board.getDecayPile().size(); i++) {
                     if (Board.getDecayPile().get(i).getType().equals(CardType.BASKET)) {
                         addCardtoDisplay(Board.getDecayPile().remove(i));
