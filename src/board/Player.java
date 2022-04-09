@@ -4,6 +4,7 @@ import cards.Card;
 import board.*;
 import cards.CardType;
 import cards.Pan;
+import cards.Stick;
 
 import java.util.ArrayList;
 
@@ -33,9 +34,23 @@ public class Player {
     }
     public void addSticks(int stick) {
         sticks += stick;
+        for (int i = 0; i < stick; i++) {
+            d.add(new Stick());
+        }
     }
     public void removeSticks(int stick) {
         sticks -= stick;
+        int alreadyRemovedSticks = 0;
+        while (alreadyRemovedSticks != stick) {
+            for (int i = 0; i < d.size(); i++) {
+                if (d.getElementAt(i).getType().equals(CardType.STICK)) {
+                    d.removeElement(i);
+                    alreadyRemovedSticks++;
+                    break;
+                }
+            }
+
+        }
     }
     public Hand getHand() {
         return h;
@@ -51,32 +66,47 @@ public class Player {
     }
 
     public Boolean takeCardFromTheForest(int position) {
-        if (getHand().size()+1 > getHandLimit()) {
+        Card drawnCard = Board.getForest().getElementAt(8-position);
+        if ((getHand().size() == getHandLimit()) && !(drawnCard.getType() == CardType.BASKET || drawnCard.getType() == CardType.STICK))
             return false;
-        }
-        Card drawnCard = Board.getForest().removeCardAt(1);
-        if (drawnCard.getType().equals(CardType.BASKET)) {
-            addCardtoDisplay(drawnCard);
-            handlimit += 2;
-            return true;
-        }
-        else if (drawnCard.getType().equals(CardType.STICK)) {
-            addSticks(1);
-            return true;
-        }
         else if (position >= 3 && position <= 8) {
-            if (getStickNumber() >= position-2) {
+            if (getStickNumber() >= position - 2) {
                 removeSticks(position - 2);
-                addCardtoHand(drawnCard);
+                if (drawnCard.getType().equals(CardType.BASKET)) {
+                    addCardtoDisplay(drawnCard);
+                    Board.getForest().removeCardAt(8-position);
+                    handlimit += 2;
+                    return true;
+                } else if (drawnCard.getType().equals(CardType.STICK)) {
+                    addSticks(1);
+                    //addCardtoDisplay(drawnCard);
+                    Board.getForest().removeCardAt(8-position);
+                    return true;
+                }
+                else {
+                    addCardtoHand(drawnCard);
+                    return true;
+                }
+            } else return false;
+        } else if (position == 1 || position == 2) {
+            if (drawnCard.getType().equals(CardType.BASKET)) {
+                addCardtoDisplay(drawnCard);
+                handlimit += 2;
+                Board.getForest().removeCardAt(8-position);
+                return true;
+            } else if (drawnCard.getType().equals(CardType.STICK)) {
+                addSticks(1);
+                addCardtoDisplay(drawnCard);
+                Board.getForest().removeCardAt(8-position);
                 return true;
             }
-            else return false;
+            else {
+                addCardtoHand(drawnCard);
+                Board.getForest().removeCardAt(8-position);
+                return true;
+            }
         }
-        else if (position == 1 || position == 2) {
-            addCardtoHand(drawnCard);
-            return true;
-        }
-        else return false;
+        return false;
     }
     public Boolean takeFromDecay() {
         if (getHand().size()+Board.getDecayPile().size() <= getHandLimit()) {
