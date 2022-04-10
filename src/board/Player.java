@@ -1,10 +1,7 @@
 package board;
 
-import cards.Card;
+import cards.*;
 import board.*;
-import cards.CardType;
-import cards.Pan;
-import cards.Stick;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -194,7 +191,52 @@ public class Player {
         return true;
     }
     public Boolean sellMushrooms(String cardName, int number) {
-        return true;
+        if (number < 2) return false;
+        cardName = cardName.toLowerCase().replace("'", "").replace(" ", "");
+        int numOfMushrooms = 0;
+        int handSize = getHand().size();
+        CardType thisType;
+        for (int i = 0; i <handSize; i++) {
+            if (getHand().getElementAt(i).getName().equals(cardName)) {
+                thisType = getHand().getElementAt(i).getType();
+                switch (thisType) {
+                    case DAYMUSHROOM:
+                        numOfMushrooms += 1;
+                        break;
+                    case NIGHTMUSHROOM:
+                        numOfMushrooms += 2;
+                        break;
+                }
+            }
+        }
+        if (numOfMushrooms >= number) {
+            int checkPosition = 0;
+            int temp = (new Mushroom(CardType.DAYMUSHROOM, cardName)).getSticksPerMushroom();
+            for (int i = 0; i < handSize; i++) {
+                thisType = getHand().getElementAt(checkPosition).getType();
+                if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.NIGHTMUSHROOM) && numOfMushrooms > 0) {
+                    numOfMushrooms -= 2;
+                    getHand().removeElement(checkPosition);
+                    addSticks(temp*2);
+                }
+                else checkPosition++;
+            }
+            if (numOfMushrooms > number) {
+                handSize = getHand().size();
+                checkPosition = 0;
+                for (int i = 0; i < handSize; i++) {
+                    thisType = getHand().getElementAt(checkPosition).getType();
+                    if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.DAYMUSHROOM) && numOfMushrooms > 0) {
+                        numOfMushrooms -= 1;
+                        getHand().removeElement(checkPosition);
+                        addSticks(temp);
+                    }
+                    else checkPosition++;
+                }
+            }
+            return true;
+        }
+        return false;
     }
     public Boolean putPanDown() {
         Boolean hasPan = false;
