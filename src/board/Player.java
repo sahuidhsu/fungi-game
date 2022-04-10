@@ -209,24 +209,26 @@ public class Player {
                 }
             }
         }
+        int previousNumber = numOfMushrooms;
         if (numOfMushrooms >= number) {
             int checkPosition = 0;
             int temp = (new Mushroom(CardType.DAYMUSHROOM, cardName)).getSticksPerMushroom();
             for (int i = 0; i < handSize; i++) {
                 thisType = getHand().getElementAt(checkPosition).getType();
-                if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.NIGHTMUSHROOM) && numOfMushrooms > 0) {
-                    numOfMushrooms -= 2;
-                    getHand().removeElement(checkPosition);
-                    addSticks(temp*2);
-                }
-                else checkPosition++;
+                if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.NIGHTMUSHROOM)) {
+                    if (previousNumber - numOfMushrooms < number) {
+                        numOfMushrooms -= 2;
+                        getHand().removeElement(checkPosition);
+                        addSticks(temp * 2);
+                    }
+                } else checkPosition++;
             }
-            if (numOfMushrooms > number) {
+            if (previousNumber-numOfMushrooms < number) {
                 handSize = getHand().size();
                 checkPosition = 0;
                 for (int i = 0; i < handSize; i++) {
                     thisType = getHand().getElementAt(checkPosition).getType();
-                    if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.DAYMUSHROOM) && numOfMushrooms > 0) {
+                    if (getHand().getElementAt(checkPosition).getName().equals(cardName) && thisType.equals(CardType.DAYMUSHROOM) && previousNumber-numOfMushrooms < number) {
                         numOfMushrooms -= 1;
                         getHand().removeElement(checkPosition);
                         addSticks(temp);
