@@ -32,6 +32,12 @@ public class EdibleItem extends Card {
             case "morel":
                 flavourPoints = 6;
                 break;
+            case "butter":
+                flavourPoints = 3;
+                break;
+            case "cider":
+                flavourPoints = 5;
+                break;
         }
     }
     public int getFlavourPoints(){

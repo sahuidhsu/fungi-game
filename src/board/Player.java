@@ -189,9 +189,7 @@ public class Player {
     }
 
     public Boolean cookMushrooms(ArrayList<Card> cardList) {
-        if (cardList.size() < 3 || cardList.size() > getHand().size()) {
-            return false;
-        }
+        int numberOfMushrooms = 0;
         Boolean foundPan = false;
         for (int i = 0; i < cardList.size(); i++) {
             if (cardList.get(i).getType().equals(CardType.PAN)) {
@@ -208,11 +206,61 @@ public class Player {
             }
         }
         if (foundPan) {
+            Boolean foundMushroom = false;
+            String MushroomName = "";
             for (int i = 0; i < cardList.size(); i++) {
-                if (cardList.get(i).getName().equals("")) {
-
+                if (cardList.get(i).getType().equals(CardType.BASKET) || cardList.get(i).getType().equals(CardType.STICK)) return false;
+                if (!foundMushroom) {
+                    if ((cardList.get(i).getType().equals(CardType.DAYMUSHROOM)) || (cardList.get(i).getType().equals(CardType.NIGHTMUSHROOM))) {
+                        foundMushroom = true;
+                        MushroomName = cardList.get(i).getName();
+                        if (cardList.get(i).getType().equals(CardType.NIGHTMUSHROOM)) numberOfMushrooms += 2; else numberOfMushrooms += 1;
+                    }
+                }
+                else {
+                    if ((cardList.get(i).getType().equals(CardType.DAYMUSHROOM)) || (cardList.get(i).getType().equals(CardType.NIGHTMUSHROOM))) {
+                        if (!cardList.get(i).getName().equals(MushroomName)) return false;
+                        if (cardList.get(i).getType().equals(CardType.NIGHTMUSHROOM)) numberOfMushrooms += 2; else numberOfMushrooms += 1;
+                    }
                 }
             }
+            if (!foundMushroom || numberOfMushrooms < 3) return false;
+            int mushrommNeeded = 0;
+            for (int i = 0; i < cardList.size(); i++) {
+                if (cardList.get(i).getType().equals(CardType.BUTTER)) mushrommNeeded += 4;
+                else if (cardList.get(i).getType().equals(CardType.CIDER)) mushrommNeeded += 5;
+            }
+            if (mushrommNeeded > numberOfMushrooms) return false;
+            int thisFlavourPoints;
+            int position;
+            for (int i = 0; i < cardList.size(); i++) {
+                if (!cardList.get(i).getType().equals(CardType.PAN)) {
+                    thisFlavourPoints = new EdibleItem(cardList.get(i).getType(), cardList.get(i).getName()).getFlavourPoints();
+                    if (cardList.get(i).getType().equals(CardType.NIGHTMUSHROOM)) thisFlavourPoints *= 2;
+                    score += thisFlavourPoints;
+                    position = 0;
+                    Boolean removeSuccess = false;
+                    while (position < getHand().size()) { //remove the card from the hand
+                        if (getHand().getElementAt(position).getName().equals(cardList.get(i).getName()) && getHand().getElementAt(position).getType().equals(cardList.get(i).getType())) {
+                            getHand().removeElement(position);
+                            removeSuccess = true;
+                            break;
+                        }
+                        position++;
+                    }
+                    if (!removeSuccess) { //remove from display
+                        position = 0;
+                        while (position < getDisplay().size()) {
+                            if (getDisplay().getElementAt(position).getName().equals(cardList.get(i).getName()) && getDisplay().getElementAt(position).getType().equals(cardList.get(i).getType())) {
+                                getDisplay().removeElement(position);
+                                break;
+                            }
+                            position++;
+                        }
+                    }
+                }
+            }
+            return true;
         }
         return false;
     }
