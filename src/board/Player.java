@@ -187,9 +187,36 @@ public class Player {
         }
         return false;
     }
+
     public Boolean cookMushrooms(ArrayList<Card> cardList) {
-        return true;
+        if (cardList.size() < 3 || cardList.size() > getHand().size()) {
+            return false;
+        }
+        Boolean foundPan = false;
+        for (int i = 0; i < cardList.size(); i++) {
+            if (cardList.get(i).getType().equals(CardType.PAN)) {
+                foundPan = true;
+                break;
+            }
+        }
+        if (!foundPan) {
+            for (int i = 0; i < getDisplay().size(); i++) {
+                if (getDisplay().getElementAt(i).getType().equals(CardType.PAN)) {
+                    foundPan = true;
+                    break;
+                }
+            }
+        }
+        if (foundPan) {
+            for (int i = 0; i < cardList.size(); i++) {
+                if (cardList.get(i).getName().equals("")) {
+
+                }
+            }
+        }
+        return false;
     }
+
     public Boolean sellMushrooms(String cardName, int number) {
         if (number < 2) return false;
         cardName = cardName.toLowerCase().replace("'", "").replace(" ", "");
